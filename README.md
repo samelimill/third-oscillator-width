@@ -1,2 +1,1 @@
-# third-oscillator-width
-Password Generator
+# Password Generator
