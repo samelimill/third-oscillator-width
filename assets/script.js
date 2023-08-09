@@ -10,7 +10,13 @@ let specialChars = ['!','#','$','%','&','(',')','*','+',',','-','.','/',':',';',
 // Sequence of functions for user inputs, password construction, and 
 function generatePassword() {
   var passwordChars = charConfirm();
+  if (passwordChars==null){
+    return;
+  }
   var passwordLength = lengthPrompt();
+  if (passwordLength==null){
+    return;
+  }
   var password = passwordBuild(passwordChars, passwordLength);
   return password;
 }
@@ -31,7 +37,7 @@ function charConfirm() {
   // check to make sure at least one prompt was confirmed, otherwise reset to start of the function
   if (passwordChars.length==0){
     alert("Please choose at least one type of character. Try again!");
-    charConfirm();
+    return;
   }
   // Returns user's selection of characters to generatePassword()
   return passwordChars;
@@ -44,14 +50,16 @@ function lengthPrompt() {
   // Prompts user to input a number for password length
   let lengthCheck = prompt("How long would you like your password to be? Please enter a number between 8 and 128.")
   // Check to make sure that password length is within 8 and 128 - if not, reset to start of function
+
   if (lengthCheck < 8) {
     alert("Password too short, please try again.");
-    lengthPrompt();
+    return;
   } else if (lengthCheck > 128) {
     alert("Password too long, please try again.");
-    lengthPrompt();
-    // If number is within the acceptable range, return the number to generatePassword()
-  } else (passwordLength=passwordLength.concat(lengthCheck)); 
+    return;
+  }
+  // If number is within the acceptable range, return the number to generatePassword()
+  passwordLength=passwordLength.concat(lengthCheck);
   return passwordLength;
 }
 
@@ -59,6 +67,7 @@ function lengthPrompt() {
 function passwordBuild(passwordChars, passwordLength) {
   // Establish empty string for password
   var password = "";
+  // generates a random string via indices of passwordChars 
   for (var i = 0; i<passwordLength; i++) {
     let randomNumb = Math.floor(Math.random()*passwordChars.length);
     let randomChar = passwordChars[randomNumb];
@@ -77,6 +86,5 @@ function writePassword() {
   
   passwordText.value = password;
 }
-
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
